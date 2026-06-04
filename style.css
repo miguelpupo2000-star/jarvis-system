@@ -1,0 +1,186 @@
+@charset "UTF-8";
+
+/* ==================================================
+   VARIÁVEIS DE COR: PALETA JARVIS (AZUL CIANO / HOLO)
+   ================================================== */
+:root {
+  --bg-principal: #040811;       /* Azul escuro profundo espacial */
+  --bg-terminal: #0b111e;        /* Grafite azulado de laboratório */
+  --azul-neon: #00d2ff;          /* Ciano brilhante do Jarvis original */
+  --azul-brilho: rgba(0, 210, 255, 0.4);
+  --texto-claro: #e2f1f8;        /* Branco levemente azulado */
+  --texto-cinza: #52637a;        /* Cinza para logs do sistema */
+  --borda: #142238;              /* Linhas de grade azuladas */
+  --font-mono: 'Monaco', 'Courier New', Courier, monospace;
+}
+
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-principal);
+  color: var(--texto-claro);
+  font-family: var(--font-mono);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background: var(--bg-terminal);
+  border-bottom: 1px solid var(--borda);
+}
+
+.logo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.logo span {
+  color: var(--azul-neon);
+  text-shadow: 0 0 10px var(--azul-brilho);
+}
+
+.status-terminal {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse-blue {
+  color: var(--azul-neon);
+  text-shadow: 0 0 8px var(--azul-neon);
+  animation: pulso 1.8s infinite;
+}
+
+@keyframes pulso {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+/* CHAT CONTAINER */
+.chat-container {
+  flex: 1;
+  max-width: 800px;
+  width: 90%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-terminal);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  box-shadow: 0 15px 45px rgba(0, 210, 255, 0.05);
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 15px 20px;
+  background: #0f1829;
+  border-bottom: 2px solid var(--azul-neon);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-header h2 {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--azul-neon);
+  text-shadow: 0 0 8px var(--azul-brilho);
+}
+
+.messages-box {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* BALÕES DE MENSAGEM */
+.message {
+  max-width: 85%;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* Balão do Miguel em azul brilhante */
+.message.user {
+  align-self: flex-end;
+  background: var(--azul-neon);
+  color: #040811;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+}
+
+/* Balão de resposta do Jarvis */
+.message.bot {
+  align-self: flex-start;
+  background: #0d1624;
+  border: 1px solid var(--borda);
+  color: var(--texto-claro);
+}
+
+/* INPUT AREA */
+.input-area {
+  padding: 15px 20px;
+  background: #0f1829;
+  border-top: 1px solid var(--borda);
+  display: flex;
+  gap: 12px;
+}
+
+.input-area input {
+  flex: 1;
+  background: #060a12;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  padding: 14px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-area input:focus {
+  border-color: var(--azul-neon);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.1);
+}
+
+.input-area button {
+  background: var(--azul-neon);
+  border: none;
+  color: #040811;
+  padding: 0 24px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-area button:hover {
+  background: #00bfe8;
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+}
