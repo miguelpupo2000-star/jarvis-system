@@ -49,7 +49,7 @@
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
 
       try {
-        // Consulta a nossa própria API invisível criada na pasta api/
+        // Consulta a nossa própria API invisível que criamos na pasta api/
         const respostaHTTP = await fetch('/api/chat', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -57,13 +57,11 @@
         });
 
         const dados = await respostaHTTP.json();
-        
-        // Exibe a resposta livre gerada pela IA real
         document.getElementById(botMessageId).textContent = dados.resposta;
 
       } catch (error) {
         console.error(error);
-        document.getElementById(botMessageId).textContent = `[SISTEMA]: Erro crítico. Certifique-se de cadastrar a chave GROQ_API_KEY no painel de controle da Vercel.`;
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Inicializando conexão... Garanta que cadastrou o nome GROQ_API_KEY no painel da Vercel.`;
       }
     }
 
