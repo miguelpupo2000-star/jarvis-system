@@ -34,6 +34,7 @@
     </div>
   </main>
 
+  <!-- SCRIPT LOCAL CORRIGIDO E LIVRE DE ERROS DE SINTAXE -->
   <script>
     const messagesBox = document.getElementById('messagesBox');
     const userInput = document.getElementById('userInput');
@@ -43,13 +44,15 @@
       const texto = userInput.value.trim();
       if (!texto) return;
 
+      // 1. Limpa o campo de texto e joga o balão azul imediatamente
       userInput.value = "";
       addMessage(texto, 'user');
 
+      // 2. Cria o balão de carregamento do Jarvis
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
 
-          try {
-        // Consulta a API invisível do servidor
+      try {
+        // Consulta a API de back-end hospedada na Vercel
         const respostaHTTP = await fetch('/api/chat', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,11 +61,18 @@
 
         const dados = await respostaHTTP.json();
         
-        // Exibe a resposta final do Jarvis na tela
-        document.getElementById(botMessageId).textContent = dados.resposta;
+        // Exibe a resposta final ou trata erros retornados pela Groq
+        if (dados && dados.resposta) {
+          document.getElementById(botMessageId).textContent = dados.resposta;
+        } else {
+          document.getElementById(botMessageId).textContent = "[SISTEMA]: Retorno inesperado do núcleo. Verifique os logs na Vercel.";
+        }
 
       } catch (error) {
-
+        console.error(error);
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Falha na comunicação externa com a rota /api/chat.`;
+      }
+    }
 
     function addMessage(text, sender) {
       const id = 'msg-' + Math.random().toString(36).substr(2, 9);
@@ -75,9 +85,12 @@
       return id;
     }
 
+    // Ativa os gatilhos físicos de clique e Enter de forma limpa
     sendBtn.onclick = enviarMensagem;
     userInput.onkeydown = function(e) {
-      if (e.key === 'Enter') enviarMensagem();
+      if (e.key === 'Enter') {
+        enviarMensagem();
+      }
     };
   </script>
 </body>
