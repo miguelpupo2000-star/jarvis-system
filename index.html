@@ -40,19 +40,17 @@
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    async function enviarMensagem() {
+       async function enviarMensagem() {
       const texto = userInput.value.trim();
       if (!texto) return;
 
-      // 1. Limpa o campo de texto e joga o balão azul imediatamente
       userInput.value = "";
       addMessage(texto, 'user');
 
-      // 2. Cria o balão de carregamento do Jarvis
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
 
       try {
-        // Consulta a API de back-end hospedada na Vercel
+        // Consulta o nosso back-end local da Vercel
         const respostaHTTP = await fetch('/api/chat', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -60,17 +58,11 @@
         });
 
         const dados = await respostaHTTP.json();
-        
-        // Exibe a resposta final ou trata erros retornados pela Groq
-        if (dados && dados.resposta) {
-          document.getElementById(botMessageId).textContent = dados.resposta;
-        } else {
-          document.getElementById(botMessageId).textContent = "[SISTEMA]: Retorno inesperado do núcleo. Verifique os logs na Vercel.";
-        }
+        document.getElementById(botMessageId).textContent = dados.resposta;
 
       } catch (error) {
         console.error(error);
-        document.getElementById(botMessageId).textContent = `[SISTEMA]: Falha na comunicação externa com a rota /api/chat.`;
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Falha na comunicação externa com a rota de servidor.`;
       }
     }
 
