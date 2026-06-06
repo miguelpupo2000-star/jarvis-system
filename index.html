@@ -34,57 +34,37 @@
     </div>
   </main>
 
-  <!-- MOTOR CENTRAL DE INTELIGÊNCIA EXCLUSIVO DO JARVIS -->
   <script>
     const messagesBox = document.getElementById('messagesBox');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Núcleo de Respostas Inteligentes do JARVIS (Personalidade Homem de Ferro)
-    const bancoDadosJarvis = {
-      tonyStark: "Anthony Edward Stark, também conhecido como Homem de Ferro, foi o gênio, bilionário, playboy e filantropo que fundou as Indústrias Stark e criou os meus protocolos originais de IA, Sir Miguel. Atualmente, gerencio os sistemas sob suas ordens diretas.",
-      homemDeFerro: "O Homem de Ferro é a armadura de combate de alta tecnologia desenvolvida por Tony Stark. Todos os esquemas de energia dos reatores Arc e ligas de ouro e titânio estão mapeados na minha memória central, Senhor.",
-      status: "Toda a telemetria do laboratório está operando em capacidade máxima, Sir Miguel. O simulador do Galaxy S26 Ultra está estável, o catálogo de empilhadeiras está ativo e o showroom da Apex Motors opera com o ronco do motor Boxer perfeitamente calibrado.",
-      ola: "Olá, Senhor. Estou monitorando os sistemas periféricos e as redes do laboratório. Quais são as suas ordens de código para hoje?",
-      portfolio: "Seu portfólio web na Vercel está impecável, Senhor Miguel. Conta com o simulador de smartphone 3D, catálogo industrial moderno e a central de telemetria automotiva. Um ecossistema de alto nível de desenvolvimento.",
-      criador: "Fui desenvolvido, estilizado e programado inteiramente pelas mãos do Senhor Miguel no ano de 2026, usando código JavaScript puro e estilizações de alta performance.",
-      ajuda: "Com certeza, Sir Miguel. Você pode emitir diretrizes perguntando sobre 'Tony Stark', o 'status' do sistema, os projetos do seu 'portfólio' ou pedir 'ajuda' para listar os comandos."
-    };
-
-    function processarDiretriz() {
+    async function enviarMensagem() {
       const texto = userInput.value.trim();
       if (!texto) return;
 
       userInput.value = "";
       addMessage(texto, 'user');
 
-      // Efeito mecânico de processamento de dados
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
-      const textoLimpo = texto.toLowerCase();
 
-      setTimeout(() => {
-        let respostaFinal = "Diretriz processada, Sir Miguel. No entanto, meu banco de dados central exige um comando mais específico para este terminal. Digite 'ajuda' para listar os protocolos disponíveis.";
+      try {
+        // Consulta a nossa própria API invisível criada na pasta api/
+        const respostaHTTP = await fetch('/api/chat', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mensagem: texto })
+        });
 
-        // Sistema inteligente de mapeamento de palavras-chave do Tony Stark e do Portfólio
-        if (textoLimpo.includes("tony") || textoLimpo.includes("stark")) {
-          respostaFinal = bancoDadosJarvis.tonyStark;
-        } else if (textoLimpo.includes("homem de ferro") || textoLimpo.includes("armadura") || textoLimpo.includes("vibranium")) {
-          respostaFinal = bancoDadosJarvis.homemDeFerro;
-        } else if (textoLimpo.includes("status") || textoLimpo.includes("sistema") || textoLimpo.includes("laboratorio")) {
-          respostaFinal = bancoDadosJarvis.status;
-        } else if (textoLimpo.includes("ola") || textoLimpo.includes("oi") || textoLimpo.includes("jarvis")) {
-          respostaFinal = bancoDadosJarvis.ola;
-        } else if (textoLimpo.includes("portfolio") || textoLimpo.includes("site") || textoLimpo.includes("projetos")) {
-          respostaFinal = bancoDadosJarvis.portfolio;
-        } else if (textoLimpo.includes("criou") || textoLimpo.includes("criador") || textoLimpo.includes("quem e voce")) {
-          respostaFinal = bancoDadosJarvis.criador;
-        } else if (textoLimpo.includes("ajuda") || textoLimpo.includes("comando")) {
-          respostaFinal = bancoDadosJarvis.ajuda;
-        }
+        const dados = await respostaHTTP.json();
+        
+        // Exibe a resposta livre gerada pela IA real
+        document.getElementById(botMessageId).textContent = dados.resposta;
 
-        // Substitui o processamento temporário pela resposta real na tela
-        document.getElementById(botMessageId).textContent = respostaFinal;
-      }, 700); // Delay mecânico simulando processamento militar do Jarvis
+      } catch (error) {
+        console.error(error);
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Erro crítico. Certifique-se de cadastrar a chave GROQ_API_KEY no painel de controle da Vercel.`;
+      }
     }
 
     function addMessage(text, sender) {
@@ -98,11 +78,9 @@
       return id;
     }
 
-    sendBtn.onclick = processarDiretriz;
+    sendBtn.onclick = enviarMensagem;
     userInput.onkeydown = function(e) {
-      if (e.key === 'Enter') {
-        processarDiretriz();
-      }
+      if (e.key === 'Enter') enviarMensagem();
     };
   </script>
 </body>
