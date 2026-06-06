@@ -34,60 +34,65 @@
     </div>
   </main>
 
-  <!-- MOTOR DE RESPOSTAS LOGÍSTICAS DO JARVIS -->
+  <!-- CONEXÃO DIRETA NATIVA COM A ENGINE ULTRA VELOZ DA GROQ -->
   <script>
+    // ⚠️ CHAVE GSK EMBUTIDA DIRETAMENTE NO CÓDIGO FONTE
+    const API_KEY = "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";
+
     const messagesBox = document.getElementById('messagesBox');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Banco de Inteligência Local com a personalidade exata do JARVIS
-    const respostasJarvis = {
-      status: "Toda a telemetria dos seus sistemas está operando em capacidade máxima, Sir Miguel. O simulador do Galaxy S26 Ultra está com estabilização de giroscópio ativa, o catálogo industrial de empilhadeiras está com a grade alinhada e o showroom da Apex Motors opera com o ronco do motor Boxer a 9.000 RPM perfeitamente calibrado.",
-      ola: "Olá, Senhor. Estou monitorando os sistemas do laboratório. Quais são as suas ordens para o desenvolvimento web hoje?",
-      oi: "Olá, Senhor. Estou monitorando os sistemas do laboratório. Quais são as suas ordens para o desenvolvimento web hoje?",
-      jarvis: "À sua disposição, Sir Miguel. Todos os protocolos de segurança e animações de interface em CSS estão ativos sob o meu gerenciamento.",
-      porsche: "Analisando dados do Showroom Apex Motors: O Porsche 911 GT3 RS está pronto na pista virtual. Deseja injetar o código de ignição ou encher o giro do motor, Senhor?",
-      portfolio: "Seu portfólio web na Vercel está impecável, Senhor Miguel. Ele conta com o simulador de smartphone 3D, catálogo industrial moderno e a central de telemetria automotiva. Um ecossistema completo digno de engenharia pesada.",
-      criador: "Fui desenvolvido e programado pelas mãos do Senhor Miguel, usando técnicas avançadas de JavaScript estruturado e estilos em alta performance no ano de 2026.",
-      ajuda: "Com certeza, Senhor. Você pode me pedir para verificar o 'status' do laboratório, analisar os dados do seu 'portfólio', ou perguntar sobre as máquinas da 'Porsche' no showroom."
-    };
+    const instrucaoSistema = "Você é o JARVIS, a inteligência artificial leal e superinteligente criada para gerenciar as telas do Senhor Miguel. Responda de forma britânica, cortês, extremamente inteligente e direta, tratando o Miguel sempre por 'Senhor' ou 'Sir Miguel'. Você tem acesso total aos dados do portfólio dele (Simulador de Celular, Catálogo de Empilhadeiras e Showroom da Apex Motors). Mantenha o tom altamente tecnológico de ficção científica e responda sempre em português.";
 
-    function processarDiretriz() {
+    async function enviarMensagem() {
       const texto = userInput.value.trim();
       if (!texto) return;
 
+      // 1. Limpa o campo e joga o balão azul de usuário instantaneamente na tela
       userInput.value = "";
       addMessage(texto, 'user');
 
-      // Cria o balão piscando simulando computação de dados
+      // 2. Cria o balão de processamento do Jarvis
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
 
-      // Analisa o texto digitado transformando tudo em letras minúsculas para não dar erro
-      const textoLimpo = texto.toLowerCase();
+      // URL oficial do barramento de dados da Groq Cloud
+      const url = "https://groq.com";
 
-      setTimeout(() => {
-        let respostaFinal = "Diretriz processada, Sir Miguel. No entanto, meu banco de dados central exige um comando específico. Digite 'ajuda' para listar os protocolos disponíveis para o seu portfólio.";
+      try {
+        // Dispara a requisição HTTP nativa direto para os servidores da Groq
+        const respostaHTTP = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY.trim()}` // Injeta a credencial embutida
+          },
+          body: JSON.stringify({
+            model: "llama3-8b-8192", // Modelo estável e de altíssima velocidade da Groq
+            messages: [
+              { role: "system", content: instrucaoSistema },
+              { role: "user", content: texto }
+            ],
+            temperature: 0.7
+          })
+        });
 
-        // Procura palavras-chave dentro da frase que você digitou
-        if (textoLimpo.includes("status") || textoLimpo.includes("sistema")) {
-          respostaFinal = respostasJarvis.status;
-        } else if (textoLimpo.includes("ola") || textoLimpo.includes("oi")) {
-          respostaFinal = respostasJarvis.ola;
-        } else if (textoLimpo.includes("jarvis")) {
-          respostaFinal = respostasJarvis.jarvis;
-        } else if (textoLimpo.includes("porsche") || textoLimpo.includes("carro")) {
-          respostaFinal = respostasJarvis.porsche;
-        } else if (textoLimpo.includes("portfolio") || textoLimpo.includes("site")) {
-          respostaFinal = respostasJarvis.portfolio;
-        } else if (textoLimpo.includes("criou") || textoLimpo.includes("criador") || textoLimpo.includes("quem e voce")) {
-          respostaFinal = respostasJarvis.criador;
-        } else if (textoLimpo.includes("ajuda") || textoLimpo.includes("comando")) {
-          respostaFinal = respostasJarvis.ajuda;
+        if (!respostaHTTP.ok) {
+          throw new Error("Erro na resposta do servidor da Groq.");
         }
 
-        // Exibe o texto do JARVIS substituindo o carregamento temporário
-        document.getElementById(botMessageId).textContent = respostaFinal;
-      }, 800); // Pequeno delay mecânico de 0.8 segundos para dar realismo
+        const dadosJSON = await respostaHTTP.json();
+        
+        // Faz a leitura exata do texto gerado dentro da estrutura JSON da Groq
+        const respostaTexto = dadosJSON.choices[0].message.content;
+
+        // 3. Substitui o carregamento pelo texto real gerado pela Inteligência Artificial
+        document.getElementById(botMessageId).textContent = respostaTexto;
+
+      } catch (error) {
+        console.error(error);
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Erro crítico na requisição de dados. Verifique a conexão de rede ou a validade da chave GSK nas configurações internas do index.html.`;
+      }
     }
 
     function addMessage(text, sender) {
@@ -101,10 +106,11 @@
       return id;
     }
 
-    sendBtn.onclick = processarDiretriz;
+    // Vincula ouvintes de cliques e digitação de forma direta
+    sendBtn.onclick = enviarMensagem;
     userInput.onkeydown = function(e) {
       if (e.key === 'Enter') {
-        processarDiretriz();
+        enviarMensagem();
       }
     };
   </script>
