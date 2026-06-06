@@ -48,8 +48,8 @@
 
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
 
-      try {
-        // Consulta a nossa própria API invisível que criamos na pasta api/
+          try {
+        // Consulta a API invisível do servidor
         const respostaHTTP = await fetch('/api/chat', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -57,13 +57,12 @@
         });
 
         const dados = await respostaHTTP.json();
+        
+        // Exibe a resposta final do Jarvis na tela
         document.getElementById(botMessageId).textContent = dados.resposta;
 
       } catch (error) {
-        console.error(error);
-        document.getElementById(botMessageId).textContent = `[SISTEMA]: Inicializando conexão... Garanta que cadastrou o nome GROQ_API_KEY no painel da Vercel.`;
-      }
-    }
+
 
     function addMessage(text, sender) {
       const id = 'msg-' + Math.random().toString(36).substr(2, 9);
