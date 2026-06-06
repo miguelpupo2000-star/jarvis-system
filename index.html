@@ -34,22 +34,23 @@
     </div>
   </main>
 
-  <!-- MOTOR DE RESPOSTAS LOGÍSTICAS DO JARVIS -->
+    <!-- MOTOR DE INTELIGÊNCIA EXPANDIDO DO JARVIS -->
   <script>
     const messagesBox = document.getElementById('messagesBox');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Banco de Inteligência Local com a personalidade exata do JARVIS
-    const respostasJarvis = {
-      status: "Toda a telemetria dos seus sistemas está operando em capacidade máxima, Sir Miguel. O simulador do Galaxy S26 Ultra está com estabilização de giroscópio ativa, o catálogo industrial de empilhadeiras está com a grade alinhada e o showroom da Apex Motors opera com o ronco do motor Boxer a 9.000 RPM perfeitamente calibrado.",
-      ola: "Olá, Senhor. Estou monitorando os sistemas do laboratório. Quais são as suas ordens para o desenvolvimento web hoje?",
-      oi: "Olá, Senhor. Estou monitorando os sistemas do laboratório. Quais são as suas ordens para o desenvolvimento web hoje?",
-      jarvis: "À sua disposição, Sir Miguel. Todos os protocolos de segurança e animações de interface em CSS estão ativos sob o meu gerenciamento.",
-      porsche: "Analisando dados do Showroom Apex Motors: O Porsche 911 GT3 RS está pronto na pista virtual. Deseja injetar o código de ignição ou encher o giro do motor, Senhor?",
-      portfolio: "Seu portfólio web na Vercel está impecável, Senhor Miguel. Ele conta com o simulador de smartphone 3D, catálogo industrial moderno e a central de telemetria automotiva. Um ecossistema completo digno de engenharia pesada.",
-      criador: "Fui desenvolvido e programado pelas mãos do Senhor Miguel, usando técnicas avançadas de JavaScript estruturado e estilos em alta performance no ano de 2026.",
-      ajuda: "Com certeza, Senhor. Você pode me pedir para verificar o 'status' do laboratório, analisar os dados do seu 'portfólio', ou perguntar sobre as máquinas da 'Porsche' no showroom."
+    // Banco de Dados Central do JARVIS (Respostas Avançadas e Básicas)
+    const bancoJarvis = {
+      apresentacao: "Eu sou o JARVIS (Just Rather Very Intelligent System), um sistema operacional de inteligência artificial projetado de forma customizada para gerenciar os laboratórios digitais do Senhor Miguel.",
+      saude: "Meus sistemas centrais operam com 100% de integridade, Senhor. Todos os barramentos de dados e servidores na Vercel estão estáveis.",
+      funcao: "Minhas diretrizes atuais incluem monitorar o portfólio de engenharia do Senhor Miguel, analisar dados técnicos de pista e guiar os visitantes pelas criações dele.",
+      tecnologias: "O Senhor Miguel domina o desenvolvimento de interfaces com HTML5 estruturado, estilizações robustas com CSS3 avançado e lógica de programação dinâmica com JavaScript puro (Vanilla JS).",
+      status: "Toda a telemetria dos sistemas está operando em capacidade máxima, Sir Miguel. O simulador do Galaxy S26 Ultra está com estabilização ativa, o catálogo de empilhadeiras está online e o showroom da Apex Motors opera com o ronco do motor Boxer a 9.000 RPM perfeitamente calibrado.",
+      ola: "Olá, Senhor. Estou monitorando as redes e os sistemas do laboratório. Quais são as suas ordens para hoje?",
+      portfolio: "Seu portfólio web na Vercel está impecável, Senhor Miguel. Ele conta com o simulador de smartphone 3D, o catálogo industrial moderno e a central de telemetria automotiva Apex Motors. Um ecossistema completo digno de engenharia pesada.",
+      criador: "Fui desenvolvido, estilizado e programado inteiramente pelas mãos do Senhor Miguel no ano de 2026, usando código JavaScript limpo e otimizado.",
+      ajuda: "Com certeza, Senhor. Você pode me perguntar sobre meu 'nome', meu 'status', como eu 'estou', sobre o 'portfólio' do Miguel, as 'tecnologias' que ele usa ou pedir ajuda a qualquer momento."
     };
 
     function processarDiretriz() {
@@ -59,35 +60,37 @@
       userInput.value = "";
       addMessage(texto, 'user');
 
-      // Cria o balão piscando simulando computação de dados
+      // Efeito mecânico de processamento
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
-
-      // Analisa o texto digitado transformando tudo em letras minúsculas para não dar erro
       const textoLimpo = texto.toLowerCase();
 
       setTimeout(() => {
-        let respostaFinal = "Diretriz processada, Sir Miguel. No entanto, meu banco de dados central exige um comando específico. Digite 'ajuda' para listar os protocolos disponíveis para o seu portfólio.";
+        let respostaFinal = "Diretriz processada, Sir Miguel. No entanto, meu banco de dados central exige um comando mais específico. Digite 'ajuda' para listar os protocolos disponíveis.";
 
-        // Procura palavras-chave dentro da frase que você digitou
-        if (textoLimpo.includes("status") || textoLimpo.includes("sistema")) {
-          respostaFinal = respostasJarvis.status;
-        } else if (textoLimpo.includes("ola") || textoLimpo.includes("oi")) {
-          respostaFinal = respostasJarvis.ola;
-        } else if (textoLimpo.includes("jarvis")) {
-          respostaFinal = respostasJarvis.jarvis;
-        } else if (textoLimpo.includes("porsche") || textoLimpo.includes("carro")) {
-          respostaFinal = respostasJarvis.porsche;
-        } else if (textoLimpo.includes("portfolio") || textoLimpo.includes("site")) {
-          respostaFinal = respostasJarvis.portfolio;
-        } else if (textoLimpo.includes("criou") || textoLimpo.includes("criador") || textoLimpo.includes("quem e voce")) {
-          respostaFinal = respostasJarvis.criador;
-        } else if (textoLimpo.includes("ajuda") || textoLimpo.includes("comando")) {
-          respostaFinal = respostasJarvis.ajuda;
+        // SISTEMA DE VARREDURA POR PALAVRAS-CHAVE (Perguntas Básicas e Técnicas)
+        if (textoLimpo.includes("nome") || textoLimpo.includes("quem e voce") || textoLimpo.includes("o que e jarvis")) {
+          respostaFinal = bancoJarvis.apresentacao;
+        } else if (textoLimpo.includes("como voce esta") || textoLimpo.includes("tudo bem") || textoLimpo.includes("status do sistema")) {
+          respostaFinal = bancoJarvis.saude;
+        } else if (textoLimpo.includes("o que voce faz") || textoLimpo.includes("sua funcao") || textoLimpo.includes("ajuda em que")) {
+          respostaFinal = bancoJarvis.funcao;
+        } else if (textoLimpo.includes("tecnologia") || textoLimpo.includes("linguagem") || textoLimpo.includes("o que ele sabe") || textoLimpo.includes("habilidade")) {
+          respostaFinal = bancoJarvis.tecnologias;
+        } else if (textoLimpo.includes("status") || textoLimpo.includes("laboratorio") || textoLimpo.includes("maquinas")) {
+          respostaFinal = bancoJarvis.status;
+        } else if (textoLimpo.includes("ola") || textoLimpo.includes("oi") || textoLimpo.includes("bom dia") || textoLimpo.includes("boa noite")) {
+          respostaFinal = bancoJarvis.ola;
+        } else if (textoLimpo.includes("portfolio") || textoLimpo.includes("site") || textoLimpo.includes("projetos")) {
+          respostaFinal = bancoJarvis.portfolio;
+        } else if (textoLimpo.includes("criou") || textoLimpo.includes("criador") || textoLimpo.includes("fez voce")) {
+          respostaFinal = bancoJarvis.criador;
+        } else if (textoLimpo.includes("ajuda") || textoLimpo.includes("comando") || textoLimpo.includes("o que perguntar")) {
+          respostaFinal = bancoJarvis.ajuda;
         }
 
-        // Exibe o texto do JARVIS substituindo o carregamento temporário
+        // Imprime a resposta na tela
         document.getElementById(botMessageId).textContent = respostaFinal;
-      }, 800); // Pequeno delay mecânico de 0.8 segundos para dar realismo
+      }, 700); // Delay simulado de 0.7 segundos
     }
 
     function addMessage(text, sender) {
@@ -108,5 +111,6 @@
       }
     };
   </script>
+
 </body>
 </html>
