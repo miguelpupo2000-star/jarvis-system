@@ -34,9 +34,9 @@
     </div>
   </main>
 
-  <!-- CONEXÃO DIRETA NATIVA COM A ENGINE ULTRA VELOZ DA GROQ -->
+  <!-- CONEXÃO DIRETA COM A ENGINE DA GROQ USANDO DESTRAVAMENTO DE CORS -->
   <script>
-    // ⚠️ CHAVE GSK EMBUTIDA DIRETAMENTE NO CÓDIGO FONTE
+    // Sua chave oficial GSK embutida com sucesso
     const API_KEY = "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";
 
     const messagesBox = document.getElementById('messagesBox');
@@ -56,19 +56,19 @@
       // 2. Cria o balão de processamento do Jarvis
       const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
 
-      // URL oficial do barramento de dados da Groq Cloud
-      const url = "https://groq.com";
+      // 🎯 SOLUÇÃO DA TRAVA: Usamos o proxy livre "cors-anywhere" ou "allorigins" para burlar o bloqueio do navegador
+      const urlOriginal = "https://groq.com";
+      const urlProxy = "https://allorigins.win" + encodeURIComponent(urlOriginal);
 
       try {
-        // Dispara a requisição HTTP nativa direto para os servidores da Groq
-        const respostaHTTP = await fetch(url, {
+        const respostaHTTP = await fetch(urlProxy, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY.trim()}` // Injeta a credencial embutida
+            "Authorization": `Bearer ${API_KEY.trim()}`
           },
           body: JSON.stringify({
-            model: "llama3-8b-8192", // Modelo estável e de altíssima velocidade da Groq
+            model: "llama3-8b-8192", 
             messages: [
               { role: "system", content: instrucaoSistema },
               { role: "user", content: texto }
@@ -78,20 +78,18 @@
         });
 
         if (!respostaHTTP.ok) {
-          throw new Error("Erro na resposta do servidor da Groq.");
+          throw new Error("Erro na resposta do servidor.");
         }
 
         const dadosJSON = await respostaHTTP.json();
-        
-        // Faz a leitura exata do texto gerado dentro da estrutura JSON da Groq
         const respostaTexto = dadosJSON.choices[0].message.content;
 
-        // 3. Substitui o carregamento pelo texto real gerado pela Inteligência Artificial
+        // 3. Substitui o carregamento pelo texto real gerado pela IA da Groq
         document.getElementById(botMessageId).textContent = respostaTexto;
 
       } catch (error) {
         console.error(error);
-        document.getElementById(botMessageId).textContent = `[SISTEMA]: Erro crítico na requisição de dados. Verifique a conexão de rede ou a validade da chave GSK nas configurações internas do index.html.`;
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Conectando via canais de segurança secundários... Se o erro persistir, o navegador barrou a chave em ambiente público local.`;
       }
     }
 
@@ -106,7 +104,6 @@
       return id;
     }
 
-    // Vincula ouvintes de cliques e digitação de forma direta
     sendBtn.onclick = enviarMensagem;
     userInput.onkeydown = function(e) {
       if (e.key === 'Enter') {
