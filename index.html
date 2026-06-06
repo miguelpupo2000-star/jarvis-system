@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -113,3 +114,123 @@
   </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS // Sistema Operacional</title>
+  <link rel="stylesheet" href="https://cloudflare.com">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Menu Superior Tecnológico -->
+  <nav class="navbar">
+    <div class="logo">JARVIS <span>// SYSTEM_CORE</span></div>
+    <div class="status-terminal"><i class="fas fa-circle pulse-blue"></i> PROJETOR_ONLINE</div>
+  </nav>
+
+  <!-- Container Central do Chat -->
+  <main class="chat-container">
+    <div class="chat-header">
+      <i class="fas fa-satellite-dish" style="color: #00d2ff;"></i>
+      <h2>PROTOCOLO // STARK_INDUSTRIES_V1.5</h2>
+    </div>
+
+    <div class="messages-box" id="messagesBox">
+      <div class="message bot">
+        [SISTEMA INICIALIZADO]: Sistemas online, Senhor Miguel. Toda a telemetria do seu portfólio de engenharia foi carregada no meu núcleo. Em que posso ser útil hoje?
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Insira uma diretriz ou comando, Senhor..." autofocus>
+      <button id="sendBtn">ANALISAR <i class="fas fa-microchip"></i></button>
+    </div>
+  </main>
+
+  <!-- CONEXÃO DIRETA NATIVA COM A ENGINE ULTRA VELOZ DA GROQ -->
+  <script>
+    // ⚠️ CHAVE GSK EMBUTIDA DIRETAMENTE NO CÓDIGO FONTE
+    const API_KEY = "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";
+
+    const messagesBox = document.getElementById('messagesBox');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    const instrucaoSistema = "Você é o JARVIS, a inteligência artificial leal e superinteligente criada para gerenciar as telas do Senhor Miguel. Responda de forma britânica, cortês, extremamente inteligente e direta, tratando o Miguel sempre por 'Senhor' ou 'Sir Miguel'. Você tem acesso total aos dados do portfólio dele (Simulador de Celular, Catálogo de Empilhadeiras e Showroom da Apex Motors). Mantenha o tom altamente tecnológico de ficção científica e responda sempre em português.";
+
+    async function enviarMensagem() {
+      const texto = userInput.value.trim();
+      if (!texto) return;
+
+      // 1. Limpa o campo e joga o balão azul de usuário instantaneamente na tela
+      userInput.value = "";
+      addMessage(texto, 'user');
+
+      // 2. Cria o balão de processamento do Jarvis
+      const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
+
+      // URL oficial do barramento de dados da Groq Cloud
+      const url = "https://groq.com";
+
+      try {
+        // Dispara a requisição HTTP nativa direto para os servidores da Groq
+        const respostaHTTP = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY.trim()}` // Injeta a credencial embutida
+          },
+          body: JSON.stringify({
+            model: "llama3-8b-8192", // Modelo estável e de altíssima velocidade da Groq
+            messages: [
+              { role: "system", content: instrucaoSistema },
+              { role: "user", content: texto }
+            ],
+            temperature: 0.7
+          })
+        });
+
+        if (!respostaHTTP.ok) {
+          throw new Error("Erro na resposta do servidor da Groq.");
+        }
+
+        const dadosJSON = await respostaHTTP.json();
+        
+        // Faz a leitura exata do texto gerado dentro da estrutura JSON da Groq
+        const respostaTexto = dadosJSON.choices[0].message.content;
+
+        // 3. Substitui o carregamento pelo texto real gerado pela Inteligência Artificial
+        document.getElementById(botMessageId).textContent = respostaTexto;
+
+      } catch (error) {
+        console.error(error);
+        document.getElementById(botMessageId).textContent = `[SISTEMA]: Erro crítico na requisição de dados. Verifique a conexão de rede ou a validade da chave GSK nas configurações internas do index.html.`;
+      }
+    }
+
+    function addMessage(text, sender) {
+      const id = 'msg-' + Math.random().toString(36).substr(2, 9);
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+      div.id = id;
+      div.textContent = text;
+      messagesBox.appendChild(div);
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+      return id;
+    }
+
+    // Vincula ouvintes de cliques e digitação de forma direta
+    sendBtn.onclick = enviarMensagem;
+    userInput.onkeydown = function(e) {
+      if (e.key === 'Enter') {
+        enviarMensagem();
+      }
+    };
+  </script>
+</body>
+</html>
+>>>>>>> 2115c68da692d03df3b574bd2cd183936d3f9b38
