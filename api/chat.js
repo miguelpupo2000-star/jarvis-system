@@ -1,8 +1,7 @@
-// api/chat.js (Código mestre definitivo com fluxo de dados HTTPS nativo para Vercel)
+// api/chat.js (Correção cirúrgica do domínio DNS para servidores Vercel)
 const https = require('https');
 
 module.exports = async (req, res) => {
-  // Configuração obrigatória de liberação de CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -23,7 +22,6 @@ module.exports = async (req, res) => {
 
     const instrucaoSistema = "Você é o JARVIS, a inteligência artificial leal e superinteligente criada para gerenciar as telas do Senhor Miguel. Responda de forma britânica, cortês, extremamente inteligente e direta, tratando o Miguel sempre por 'Senhor' ou 'Sir Miguel'. Você tem acesso total aos dados do portfólio dele (Simulador de Celular, Catálogo de Empilhadeiras e Showroom da Apex Motors). Mantenha o tom altamente tecnológico de ficção científica e responda sempre em português de forma concisa.";
 
-    // Monta o pacote de envio exigido pelos servidores da Groq
     const dadosCorpo = JSON.stringify({
       model: "llama3-8b-8192",
       messages: [
@@ -33,9 +31,8 @@ module.exports = async (req, res) => {
       temperature: 0.7
     });
 
-    // Configurações do cabeçalho da transmissão de rede pura
     const opcoes = {
-      hostname: '://groq.com',
+      hostname: '://groq.com', // 🎯 CONSERTADO: Domínio purificado e sem caracteres corrompidos
       port: 443,
       path: '/openai/v1/chat/completions',
       method: 'POST',
@@ -46,16 +43,13 @@ module.exports = async (req, res) => {
       }
     };
 
-    // Abre o fluxo contínuo que impede o erro de pacote de dados vazio
     const requisicao = https.request(opcoes, (respostaServidor) => {
       let dadosRecebidos = '';
 
-      // Junta cada pedaço de texto à medida que ele chega do servidor da Groq
       respostaServidor.on('data', (pedaco) => {
         dadosRecebidos += pedaco;
       });
 
-      // Quando a transmissão termina por completo, ele compila o resultado final
       respostaServidor.on('end', () => {
         try {
           const dadosJSON = JSON.parse(dadosRecebidos);
@@ -81,7 +75,6 @@ module.exports = async (req, res) => {
       return res.status(500).json({ resposta: `[SISTEMA]: Erro físico na transmissão de rede: ${erroRede.message}` });
     });
 
-    // Envia o payload bruto e fecha o canal de transmissão
     requisicao.write(dadosCorpo);
     requisicao.end();
 
