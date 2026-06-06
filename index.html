@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JARVIS // Sistema Operacional</title>
-  <link rel="stylesheet" href="https://cloudflare.com">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <!-- Menu Superior Tecnológico -->
-  <nav class="navbar">
-    <div class="logo">JARVIS <span>// SYSTEM_CORE</span></div>
-    <div class="status-terminal"><i class="fas fa-circle pulse-blue"></i> PROJETOR_ONLINE</div>
-  </nav>
-
-  <!-- Container Central do Chat -->
+  <!-- Container Central do Chat Corrigido -->
   <main class="chat-container">
     <div class="chat-header">
       <i class="fas fa-satellite-dish" style="color: #00d2ff;"></i>
-      <h2>PROTOCOLO // STARK_INDUSTRIES_V1.5</h2>
+      <!-- DEIXADO APENAS O NOME INTEGRADO -->
+      <h2>JARVIS</h2>
     </div>
 
     <div class="messages-box" id="messagesBox">
@@ -27,86 +11,3 @@
         [SISTEMA INICIALIZADO]: Sistemas online, Senhor Miguel. Toda a telemetria do seu portfólio de engenharia foi carregada no meu núcleo. Em que posso ser útil hoje?
       </div>
     </div>
-
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Insira uma diretriz ou comando, Senhor..." autofocus>
-      <button id="sendBtn">ANALISAR <i class="fas fa-microchip"></i></button>
-    </div>
-  </main>
-
-  <!-- MOTOR DE RESPOSTAS LOGÍSTICAS DO JARVIS -->
-  <script>
-    const messagesBox = document.getElementById('messagesBox');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-
-    // Banco de Inteligência Local com a personalidade exata do JARVIS
-    const respostasJarvis = {
-      status: "Toda a telemetria dos seus sistemas está operando em capacidade máxima, Sir Miguel. O simulador do Galaxy S26 Ultra está com estabilização de giroscópio ativa, o catálogo industrial de empilhadeiras está com a grade alinhada e o showroom da Apex Motors opera com o ronco do motor Boxer a 9.000 RPM perfeitamente calibrado.",
-      ola: "Olá, Senhor. Estou monitorando os sistemas do laboratório. Quais são as suas ordens para o desenvolvimento web hoje?",
-      oi: "Olá, Senhor. Estou monitorando os sistemas do laboratório. Quais são as suas ordens para o desenvolvimento web hoje?",
-      jarvis: "À sua disposição, Sir Miguel. Todos os protocolos de segurança e animações de interface em CSS estão ativos sob o meu gerenciamento.",
-      porsche: "Analisando dados do Showroom Apex Motors: O Porsche 911 GT3 RS está pronto na pista virtual. Deseja injetar o código de ignição ou encher o giro do motor, Senhor?",
-      portfolio: "Seu portfólio web na Vercel está impecável, Senhor Miguel. Ele conta com o simulador de smartphone 3D, catálogo industrial moderno e a central de telemetria automotiva. Um ecossistema completo digno de engenharia pesada.",
-      criador: "Fui desenvolvido e programado pelas mãos do Senhor Miguel, usando técnicas avançadas de JavaScript estruturado e estilos em alta performance no ano de 2026.",
-      ajuda: "Com certeza, Senhor. Você pode me pedir para verificar o 'status' do laboratório, analisar os dados do seu 'portfólio', ou perguntar sobre as máquinas da 'Porsche' no showroom."
-    };
-
-    function processarDiretriz() {
-      const texto = userInput.value.trim();
-      if (!texto) return;
-
-      userInput.value = "";
-      addMessage(texto, 'user');
-
-      // Cria o balão piscando simulando computação de dados
-      const botMessageId = addMessage("[CALCULANDO DIRETRIZ...]", 'bot');
-
-      // Analisa o texto digitado transformando tudo em letras minúsculas para não dar erro
-      const textoLimpo = texto.toLowerCase();
-
-      setTimeout(() => {
-        let respostaFinal = "Diretriz processada, Sir Miguel. No entanto, meu banco de dados central exige um comando específico. Digite 'ajuda' para listar os protocolos disponíveis para o seu portfólio.";
-
-        // Procura palavras-chave dentro da frase que você digitou
-        if (textoLimpo.includes("status") || textoLimpo.includes("sistema")) {
-          respostaFinal = respostasJarvis.status;
-        } else if (textoLimpo.includes("ola") || textoLimpo.includes("oi")) {
-          respostaFinal = respostasJarvis.ola;
-        } else if (textoLimpo.includes("jarvis")) {
-          respostaFinal = respostasJarvis.jarvis;
-        } else if (textoLimpo.includes("porsche") || textoLimpo.includes("carro")) {
-          respostaFinal = respostasJarvis.porsche;
-        } else if (textoLimpo.includes("portfolio") || textoLimpo.includes("site")) {
-          respostaFinal = respostasJarvis.portfolio;
-        } else if (textoLimpo.includes("criou") || textoLimpo.includes("criador") || textoLimpo.includes("quem e voce")) {
-          respostaFinal = respostasJarvis.criador;
-        } else if (textoLimpo.includes("ajuda") || textoLimpo.includes("comando")) {
-          respostaFinal = respostasJarvis.ajuda;
-        }
-
-        // Exibe o texto do JARVIS substituindo o carregamento temporário
-        document.getElementById(botMessageId).textContent = respostaFinal;
-      }, 800); // Pequeno delay mecânico de 0.8 segundos para dar realismo
-    }
-
-    function addMessage(text, sender) {
-      const id = 'msg-' + Math.random().toString(36).substr(2, 9);
-      const div = document.createElement('div');
-      div.className = `message ${sender}`;
-      div.id = id;
-      div.textContent = text;
-      messagesBox.appendChild(div);
-      messagesBox.scrollTop = messagesBox.scrollHeight;
-      return id;
-    }
-
-    sendBtn.onclick = processarDiretriz;
-    userInput.onkeydown = function(e) {
-      if (e.key === 'Enter') {
-        processarDiretriz();
-      }
-    };
-  </script>
-</body>
-</html>
